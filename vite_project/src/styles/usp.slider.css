@@ -1,0 +1,10 @@
+.uspSlider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.uspSlider__inner {
+    position: relative;
+    width: 100%;
+}

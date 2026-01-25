@@ -1,0 +1,22 @@
+.uspBaseWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    font-size: inherit;
+}
+
+.uspSlide--inactive {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
+}
+
+.uspSlide--active {
+    opacity: 1;
+    pointer-events: auto;
+}

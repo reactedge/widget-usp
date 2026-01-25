@@ -1,0 +1,21 @@
+.uspStatic {
+    display: grid;
+    width: 100%;
+    gap: 20px;
+}
+
+.uspStatic--mobile {
+    grid-template-columns: 1fr;
+}
+
+.uspStatic--tablet {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.uspStatic--desktop {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.uspStatic__tile {
+    width: 100%;
+}
