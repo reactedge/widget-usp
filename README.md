@@ -38,8 +38,28 @@ This widget focuses on **delivery and safety**, not business promises.
 - **Deferred by default** – does not require early page execution to function
 - **Layered structure** – organised to encourage consistency across ReactEdge widgets without enforcing a framework
 - **Boring on purpose** – clarity over cleverness
+- **Observable by the host** – key lifecycle and interaction events are emitted to allow integration with analytics or monitoring tools without coupling to a specific provider
 
 ---
+
+## Project structure (high level)
+
+This repository contains the widget itself, along with supporting tooling used for development, testing, and community maintenance.
+
+- `vite_project/`  
+  Source code for the USP widget and its build configuration.
+
+- `tests/`  
+  End-to-end tests (Playwright) used to validate widget behaviour in a real browser environment.
+
+- `docker/` and `docker-compose.yml`  
+  Optional local development tooling. These are provided for convenience and are not required to use the widget.
+
+- `.github/`  
+  GitHub metadata (issue templates, CI workflows, etc.) to support collaboration and maintainability.
+
+- `www/`  
+  Generated build output. This folder is intentionally not committed to the repository.
 
 ## Installation (high level)
 
@@ -51,3 +71,45 @@ Typical usage looks like:
 <script src="path-to-widget.js"></script>
 
 <reactedge-usp-widget></reactedge-usp-widget>
+```
+
+## Local development
+
+This project uses Node.js and npm.
+
+From the repository root:
+
+```bash
+npm install
+```
+
+To run the widget locally:
+
+```bash
+cd vite_project
+npm install
+npm run dev
+```
+
+To run the test suite:
+```bash
+npx playwright test --config=tests/playwright.dev.config.ts
+```
+
+## Deploying the widget
+
+ReactEdge widgets are deployed as **static JavaScript artefacts**.
+They do not require a server-side runtime once built.
+
+### Build the artefact
+
+From the `vite_project` directory:
+
+```bash
+npm run build
+```
+
+This produces a versioned JavaScript file in the www/ directory
+(e.g. widget-usp@x.y.z.iife.js).
+
+The www/ Generated build output produced by the build process. This folder is intentionally not committed to the repository.
