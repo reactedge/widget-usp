@@ -169,6 +169,8 @@ test('USP supports keyboard navigation on mobile', async ({ page }) => {
         .first()
         .textContent();
 
+    const next = page.locator('[data-usp-next]');
+    await next.focus();
     await page.keyboard.press('ArrowRight');
 
     const second = await widget

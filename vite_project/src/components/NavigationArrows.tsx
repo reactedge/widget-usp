@@ -1,4 +1,5 @@
 import type { NavigationProps } from "./Types.ts";
+import {handleArrowButtonKeyDown} from "../lib/keyboard.ts";
 
 export function NavigationArrows({ current, total, onChange }: NavigationProps) {
     const prev = () => onChange(current === 0 ? total - 1 : current - 1);
@@ -6,8 +7,12 @@ export function NavigationArrows({ current, total, onChange }: NavigationProps) 
 
     return (
         <div className="navigationArrows">
-            <button className="arrowBtn" onClick={prev} data-usp-prev>‹</button>
-            <button className="arrowBtn" onClick={next} data-usp-next>›</button>
+            <button className="arrowBtn" onClick={prev} onKeyDown={(e) =>
+                handleArrowButtonKeyDown(e, prev, ['ArrowLeft', 'Enter', ' '])
+            } data-usp-prev>‹</button>
+            <button className="arrowBtn" onClick={next} onKeyDown={(e) =>
+                handleArrowButtonKeyDown(e, next, ['ArrowRight', 'Enter', ' '])
+            } data-usp-next>›</button>
         </div>
     );
 };
