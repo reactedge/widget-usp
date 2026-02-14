@@ -13,23 +13,19 @@ export interface UspWidgetConfig {
 export function readUspConfig(
     hostElement: HTMLElement
 ): UspWidgetConfig | null {
-    const container = hostElement.closest('[data-usp]');
-    if (!container) return null;
+    const configScript = hostElement.querySelector<HTMLScriptElement>(
+        'script[type="application/json"][data-config]'
+    );
 
-    const rawData = container.getAttribute("data-usp");
-
-    if (!rawData) {
-        return {
-            slides: [],
-            settings: defaultUspConfig,
-        };
+    if (!configScript) {
+        throw new Error("USP widget requires a <script data-config> block.");
     }
 
     try {
-        const parsed = JSON.parse(rawData);
+        const parsed = JSON.parse(configScript.textContent || "{}");
 
         return Object.freeze({
-            slides: parsed.slides ?? [],
+            slides: parsed.data.slides ?? [],
             settings: parsed.settings ?? defaultUspConfig,
         });
     } catch {
