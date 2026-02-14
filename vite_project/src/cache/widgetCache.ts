@@ -7,7 +7,7 @@ function key({ name, version }: WidgetCacheOptions): string {
     return `${CACHE_PREFIX}:${name}:${version}`;
 }
 
-function ensureRoot(shadow: ShadowRoot): HTMLElement {
+function ensureRoot(shadow: HTMLElement | ShadowRoot): HTMLElement {
     let root = shadow.querySelector<HTMLElement>('[data-widget-root]');
 
     if (!root) {
@@ -20,7 +20,7 @@ function ensureRoot(shadow: ShadowRoot): HTMLElement {
 }
 
 export function restoreCache(
-    shadow: ShadowRoot,
+    shadow: HTMLElement | ShadowRoot,
     options: WidgetCacheOptions
 ): CacheRestoreResult {
     const cached = sessionStorage.getItem(key(options));
@@ -29,13 +29,17 @@ export function restoreCache(
     const root = ensureRoot(shadow);
     root.innerHTML = cached;
 
-    shadow.host.setAttribute('data-widget-cached', 'true');
+    if (shadow instanceof ShadowRoot) {
+        shadow.host.setAttribute('data-widget-cached', 'true');
+    } else {
+        shadow.setAttribute('data-widget-cached', 'true');
+    }
 
     return { restored: true };
 }
 
 export function snapshotCache(
-    shadow: ShadowRoot,
+    shadow: HTMLElement | ShadowRoot,
     options: WidgetCacheOptions
 ): void {
     const root = shadow.querySelector<HTMLElement>('[data-widget-root]');
@@ -45,7 +49,12 @@ export function snapshotCache(
     }
 
     sessionStorage.setItem(key(options), root.innerHTML);
-    shadow.host.setAttribute('data-widget-cached', 'true');
+
+    if (shadow instanceof ShadowRoot) {
+        shadow.host.setAttribute('data-widget-cached', 'true');
+    } else {
+        shadow.setAttribute('data-widget-cached', 'true');
+    }
 }
 
 export function clearCache(options: WidgetCacheOptions): void {
