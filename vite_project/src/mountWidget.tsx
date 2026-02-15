@@ -37,7 +37,7 @@ export function mountWidget(hostElement: HTMLElement) {
 
     createRoot(mountNode).render(element);
 
-    activity('bootstrap', '[USP] Widget mounted');
+    activity('bootstrap', 'Widget mounted');
 
     fallback(hostElement)
 }
