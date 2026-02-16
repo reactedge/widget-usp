@@ -49,10 +49,10 @@ jobs:
       - name: Publish artifact
         run: |
           VERSION=$(node -p "require('./vite_project/package.json').version")
+          mv www/widget/usp.css www/widget-usp@${VERSION}.css
           ssh ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }} \
             "mkdir -p /var/www/widgets/usp"
           rsync -av \
             --chown=www-data:www-data \
             www/widget-usp@${VERSION}.iife.js* \
-          mv www/widget/usp.css www/widget-usp@${VERSION}.css
             ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/usp/
