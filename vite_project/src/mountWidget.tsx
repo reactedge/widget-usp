@@ -1,5 +1,4 @@
 import {createRoot} from "react-dom/client";
-import {ensureGlobalStyle} from "./lib/style.ts";
 import {fallback} from "./lib/fallback.ts";
 import { restoreCache, snapshotCache } from './cache';
 import {UspWidgetWrapper} from "./UspWidgetWrapper.tsx";
@@ -11,12 +10,10 @@ const cache = { name: 'usp', version: 'v1' };
 export function mountWidget(hostElement: HTMLElement) {
     const mountedHost = getMountedHost(hostElement);
 
-    ensureGlobalStyle('reactedge-usp-css', '/widget/usp.css');
-
     const { restored } = restoreCache(mountedHost, cache);
 
     if (restored) {
-        console.debug('[widget] cache hit');
+        activity('bootstrap', 'Widget cache hit');
     }
 
     let mountNode = mountedHost.querySelector('[data-widget-root]');
@@ -35,7 +32,9 @@ export function mountWidget(hostElement: HTMLElement) {
         />
     );
 
-    createRoot(mountNode).render(element);
+    createRoot(mountNode).render(<div className="reactedge-usp">
+        {element}
+    </div>);
 
     activity('bootstrap', 'Widget mounted');
 

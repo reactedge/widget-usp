@@ -7,7 +7,7 @@ type Props = {
     onStable?: () => void;
 };
 
-export const WIDGET_ID = 'USP';
+export const WIDGET_ID = 'usp';
 
 export const UspWidgetWrapper = ({ host, onStable }: Props) => {
     const config = useWidgetConfig(host);
