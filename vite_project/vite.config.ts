@@ -9,6 +9,7 @@ export default defineConfig({
   },
   build: {
     outDir: "../www",
+    cssCodeSplit: true,
     emptyOutDir: false,
     lib: {
       entry: "src/widget.ts",

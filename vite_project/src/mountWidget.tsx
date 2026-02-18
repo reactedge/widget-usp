@@ -1,43 +1,42 @@
 import {createRoot} from "react-dom/client";
-import { uspStyles } from "./styles/usp.styles";
-import {injectStyles} from "./lib/style.ts";
 import {fallback} from "./lib/fallback.ts";
 import { restoreCache, snapshotCache } from './cache';
 import {UspWidgetWrapper} from "./UspWidgetWrapper.tsx";
+import {activity} from "./activity";
+import {getMountedHost} from "./widget-runtime/lib/hostReader.ts";
 
 const cache = { name: 'usp', version: 'v1' };
 
 export function mountWidget(hostElement: HTMLElement) {
-    const shadow =
-        hostElement.shadowRoot || hostElement.attachShadow({ mode: "open" });
+    const mountedHost = getMountedHost(hostElement);
 
-    for (const css of uspStyles) {
-        injectStyles(shadow, css);
-    }
-
-    const { restored } = restoreCache(shadow, cache);
+    const { restored } = restoreCache(mountedHost, cache);
 
     if (restored) {
-        console.debug('[widget] cache hit');
+        activity('bootstrap', 'Widget cache hit');
     }
 
-    let mountNode = shadow.querySelector('[data-widget-root]');
+    let mountNode = mountedHost.querySelector('[data-widget-root]');
     if (!mountNode) {
         mountNode = document.createElement('div');
         mountNode.setAttribute('data-widget-root', '');
-        shadow.appendChild(mountNode);
+        mountedHost.appendChild(mountNode);
     }
 
     const element = (
         <UspWidgetWrapper
             host={hostElement}
             onStable={() => {
-                snapshotCache(shadow, cache)
+                snapshotCache(mountedHost, cache)
             }}
         />
     );
 
-    createRoot(mountNode).render(element);
+    createRoot(mountNode).render(<div className="reactedge-usp">
+        {element}
+    </div>);
+
+    activity('bootstrap', 'Widget mounted');
 
     fallback(hostElement)
 }

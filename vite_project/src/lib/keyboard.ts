@@ -1,5 +1,3 @@
-type KeyboardAction = (event: React.KeyboardEvent<HTMLButtonElement>) => void;
-
 export function handleArrowButtonKeyDown(
     event: React.KeyboardEvent<HTMLButtonElement>,
     action: () => void,

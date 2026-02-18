@@ -1,4 +1,5 @@
 import {type UspConfig, type UspSlide, defaultUspConfig} from "./components/Types.ts";
+import {WIDGET_ID} from "./UspWidgetWrapper.tsx";
 
 export interface UspWidgetConfig {
     /**
@@ -18,7 +19,7 @@ export function readUspConfig(
     );
 
     if (!configScript) {
-        throw new Error("USP widget requires a <script data-config> block.");
+        throw new Error(`${WIDGET_ID} widget requires a <script data-config> block.`);
     }
 
     try {

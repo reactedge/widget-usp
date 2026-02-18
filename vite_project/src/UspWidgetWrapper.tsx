@@ -7,13 +7,12 @@ type Props = {
     onStable?: () => void;
 };
 
+export const WIDGET_ID = 'usp';
+
 export const UspWidgetWrapper = ({ host, onStable }: Props) => {
     const config = useWidgetConfig(host);
 
-    if (!config) {
-        console.warn('[ContactUs] Widget is not correctly configured');
-        return null;
-    }
+    if (!config) return null;
 
     if (config.slides.length === 0) return <Spinner />;
 

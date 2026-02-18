@@ -19,3 +19,8 @@
     pointer-events: auto;
     transition: background 0.3s ease;
 }
+
+button {
+    min-width: unset;
+    padding: 0;
+}
