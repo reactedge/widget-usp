@@ -2,10 +2,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
-    padding: 16px;
+    padding: var(--re-usp-padding, 1rem);
+    border-radius: var(--re-usp-radius, 0.5rem);
     text-align: center;
-    font-size: inherit;
 }
 
 .uspSlide--inactive {
@@ -13,10 +12,16 @@
     inset: 0;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.7s ease;
+    transition: opacity var(--re-usp-transition, 0.25s ease);
 }
 
 .uspSlide--active {
     opacity: 1;
     pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .uspSlide--inactive {
+        transition: none;
+    }
 }
