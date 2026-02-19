@@ -25,7 +25,7 @@ export const UspWidget = ({ onStable, config }: Props) => {
         'ontouchstart' in window;
 
     useEffect(() => {
-        if (!config.slides.length) return;
+        if (!config.data.slides.length) return;
         if (!mode) return;
         if (isVolatileEnvironment) return;
 
@@ -34,9 +34,9 @@ export const UspWidget = ({ onStable, config }: Props) => {
                 onStable?.();
             });
         });
-    }, [config.slides.length, mode]);
+    }, [config.data.slides.length, mode]);
 
-    if (config.slides.length === 0) return <Spinner />;
+    if (config.data.slides.length === 0) return <Spinner />;
 
     const isMobile = window.matchMedia("(max-width: 640px)").matches;
     const isTablet = window.matchMedia("(min-width: 641px) and (max-width: 1024px)").matches;
@@ -47,9 +47,9 @@ export const UspWidget = ({ onStable, config }: Props) => {
     else if (isTablet) currentMode = config.settings.mode.tablet;
 
     if (currentMode === "slider") {
-        return <UspSlider slides={config.slides} config={config.settings}/>;
+        return <UspSlider slides={config.data.slides} config={config.settings}/>;
     }
 
-    return <UspStatic slides={config.slides} config={config.settings} />;
+    return <UspStatic slides={config.data.slides} />;
 };
 

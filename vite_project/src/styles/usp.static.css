@@ -2,6 +2,7 @@
     display: grid;
     width: 100%;
     gap: var(--re-usp-gap, 1.25rem);
+    height: var(--re-usp-height, 45px);
 }
 
 .uspStatic--mobile {

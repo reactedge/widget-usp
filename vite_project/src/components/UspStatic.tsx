@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { UspSlide } from "./UspSlide.tsx";
 import type { UspStaticProps } from "./Types.ts";
 
-export function UspStatic({ slides, config }: UspStaticProps) {
+export function UspStatic({ slides }: UspStaticProps) {
     const [breakpoint, setBreakpoint] = useState<"mobile" | "tablet" | "desktop">("desktop");
 
     useEffect(() => {
@@ -19,10 +19,7 @@ export function UspStatic({ slides, config }: UspStaticProps) {
     }, []);
 
     return (
-        <div
-            className={`uspStatic uspStatic--${breakpoint}`}
-            style={{ height: config.height }}
-        >
+        <div className={`uspStatic uspStatic--${breakpoint}`}>
             {slides.map((slide, index) => (
                 <div key={index} className="uspStatic__tile">
                     <UspSlide slide={slide} isActive={false} tileMode={true} />

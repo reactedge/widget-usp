@@ -6,12 +6,11 @@ export interface NavigationProps {
 
 export interface UspSliderProps {
     slides:  UspSlide[];
-    config: UspConfig;
+    config: UspSettings;
 }
 
 export interface UspStaticProps {
     slides:  UspSlide[];
-    config: UspConfig;
 }
 
 export interface UspSlideProps {
@@ -21,17 +20,13 @@ export interface UspSlideProps {
 }
 
 export interface UspSlide {
-    text: string,
-    backgroundColor: string,
-    textColor: string
+    text: string
 }
 
 export type UspModeValue = "static" | "slider";
 
-export interface UspConfig {
+export interface UspSettings {
     mode: UspMode;
-    height: string
-    backgroundColor?: string;
 }
 
 export interface UspMode {
@@ -40,11 +35,8 @@ export interface UspMode {
     mobile: UspModeValue;
 }
 
-export const defaultUspConfig: UspConfig = {
-    mode: {
-        desktop: "static",
-        tablet: "slider",
-        mobile: "slider"
-    },
-    height: "50px",
+export const defaultUspSettings: UspMode = {
+    desktop: "static",
+    tablet: "slider",
+    mobile: "slider"
 };
