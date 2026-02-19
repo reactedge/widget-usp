@@ -18,7 +18,6 @@ export interface UspSlideProps {
     slide: UspSlide;
     isActive: boolean;
     tileMode: boolean;
-    config: UspConfig;
 }
 
 export interface UspSlide {

@@ -19,7 +19,6 @@ export function UspSlider({ slides, config }: UspSliderProps) {
                         slide={slide}
                         isActive={i === currentIndex}
                         tileMode={false}
-                        config={config}
                     />
                 ))}
             </div>
