@@ -1,14 +1,18 @@
-import {type UspConfig, type UspSlide, defaultUspConfig} from "./components/Types.ts";
+import {type UspSettings, type UspSlide} from "./components/Types.ts";
 import {WIDGET_ID} from "./UspWidgetWrapper.tsx";
+import {uspSchema} from "./widget-runtime/WidgetConfig/validation.ts";
+import {activity} from "./activity";
 
 export interface UspWidgetConfig {
     /**
      * Structured banner payload.
      * Shape is banner-owned and opaque to the platform.
      */
-    readonly slides: UspSlide[]
+    readonly data: {
+        slides: UspSlide[]
+    }
 
-    readonly settings: UspConfig;
+    readonly settings: UspSettings;
 }
 
 export function readUspConfig(
@@ -22,17 +26,22 @@ export function readUspConfig(
         throw new Error(`${WIDGET_ID} widget requires a <script data-config> block.`);
     }
 
-    try {
-        const parsed = JSON.parse(configScript.textContent || "{}");
+    let raw: unknown;
 
-        return Object.freeze({
-            slides: parsed.data.slides ?? [],
-            settings: parsed.settings ?? defaultUspConfig,
-        });
+    try {
+        raw = JSON.parse(configScript.textContent || "{}");
     } catch {
-        return {
-            slides: [],
-            settings: defaultUspConfig,
-        };
+        console.error("Invalid JSON in USP config");
+        return null;
     }
+
+    const parsed = uspSchema.safeParse(raw);
+
+    if (!parsed.success) {
+        console.error("USP contract invalid", parsed.error);
+        activity('config', "contract invalid", { error: parsed.error });
+        return null;
+    }
+
+    return Object.freeze(parsed.data);
 }

@@ -14,7 +14,7 @@ export const UspWidgetWrapper = ({ host, onStable }: Props) => {
 
     if (!config) return null;
 
-    if (config.slides.length === 0) return <Spinner />;
+    if (config.data.slides.length === 0) return <Spinner />;
 
     return <UspWidget onStable={onStable} config={config} />
 };

@@ -2,6 +2,7 @@
     position: relative;
     width: 100%;
     overflow: hidden;
+    height: var(--re-usp-height, 45px);
 }
 
 .uspSlider__inner {
