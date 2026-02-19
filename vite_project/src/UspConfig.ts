@@ -31,14 +31,13 @@ export function readUspConfig(
     try {
         raw = JSON.parse(configScript.textContent || "{}");
     } catch {
-        console.error("Invalid JSON in USP config");
+        activity('config', "Invalid JSON", null, 'error');
         return null;
     }
 
     const parsed = uspSchema.safeParse(raw);
 
     if (!parsed.success) {
-        console.error("USP contract invalid", parsed.error);
         activity('config', "contract invalid", { error: parsed.error });
         return null;
     }
