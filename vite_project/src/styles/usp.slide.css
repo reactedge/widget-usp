@@ -4,6 +4,8 @@
     justify-content: center;
     padding: var(--re-usp-padding, 1rem);
     border-radius: var(--re-usp-radius, 0.5rem);
+    background-color: var(--re-usp-bg, #003652);
+    color: var(--re-usp-text-color, #F6F2DF);
     text-align: center;
 }
 

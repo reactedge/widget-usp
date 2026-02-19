@@ -21,14 +21,11 @@ export function UspStatic({ slides, config }: UspStaticProps) {
     return (
         <div
             className={`uspStatic uspStatic--${breakpoint}`}
-            style={{
-                height: config.height,
-                backgroundColor: config.backgroundColor,
-            }}
+            style={{ height: config.height }}
         >
             {slides.map((slide, index) => (
                 <div key={index} className="uspStatic__tile">
-                    <UspSlide slide={slide} isActive={false} tileMode={true} config={config}/>
+                    <UspSlide slide={slide} isActive={false} tileMode={true} />
                 </div>
             ))}
         </div>
