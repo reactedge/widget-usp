@@ -25,7 +25,7 @@ export function UspStatic({ slides, config }: UspStaticProps) {
         >
             {slides.map((slide, index) => (
                 <div key={index} className="uspStatic__tile">
-                    <UspSlide slide={slide} isActive={false} tileMode={true} config={config}/>
+                    <UspSlide slide={slide} isActive={false} tileMode={true} />
                 </div>
             ))}
         </div>

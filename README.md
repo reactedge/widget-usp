@@ -42,6 +42,35 @@ This widget focuses on **delivery and safety**, not business promises.
 
 ---
 
+## 🎨 Styling Tokens
+
+The USP widget exposes the following optional CSS variables
+for host-level customization.
+If not defined, defaults are applied.
+
+### Available Tokens
+
+--re-usp-bg  
+--re-usp-text-color  
+--re-usp-height  
+--re-usp-gap  
+--re-usp-padding  
+--re-usp-radius  
+--re-usp-transition  
+--re-usp-arrow-color  
+--re-usp-arrow-bg  
+--re-usp-arrow-size
+
+### Example
+
+```css
+.reactedge-usp {
+  --re-usp-bg: #003652;
+  --re-usp-text-color: #F6F2DF;
+  --re-usp-gap: 2rem;
+}
+```
+
 ## Project structure (high level)
 
 This repository contains the widget itself, along with supporting tooling used for development, testing, and community maintenance.
