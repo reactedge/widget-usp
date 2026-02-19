@@ -8,19 +8,25 @@
 }
 
 .arrowBtn {
-    background: transparent;
-    color: #fff;
+    appearance: none;
+    background: var(--re-usp-arrow-bg, rgba(0,0,0,0.05));
+    color: var(--re-usp-arrow-color, #fff);
     border: none;
-    width: 30px;
-    height: 50px;
-    border-radius: 50%;
+    padding: var(--re-usp-arrow-padding, 0.5rem);
+    border-radius: var(--re-usp-arrow-radius, 999px);
     cursor: pointer;
-    font-size: 25px;
+    line-height: 1;
+    transition: opacity var(--re-usp-transition, 0.25s ease);
     pointer-events: auto;
-    transition: background 0.3s ease;
 }
 
 button {
-    min-width: unset;
+    min-width: 0;
     padding: 0;
 }
+
+.arrowBtn svg {
+    width: var(--re-usp-arrow-size, 1.25rem);
+    height: var(--re-usp-arrow-size, 1.25rem);
+}
+

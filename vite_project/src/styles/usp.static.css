@@ -1,7 +1,7 @@
 .uspStatic {
     display: grid;
     width: 100%;
-    gap: 20px;
+    gap: var(--re-usp-gap, 1.25rem);
 }
 
 .uspStatic--mobile {
