@@ -12,7 +12,7 @@ export function useWidgetConfig(
             return null;
         }
 
-        activity('bootstrap', 'Widget config loaded', baseConfig);
+        activity('bootstrap', 'Widget config', baseConfig);
 
         return baseConfig
     }, [host]);

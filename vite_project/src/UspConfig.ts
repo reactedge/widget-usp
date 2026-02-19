@@ -1,7 +1,7 @@
 import {type UspSettings, type UspSlide} from "./components/Types.ts";
-import {WIDGET_ID} from "./UspWidgetWrapper.tsx";
 import {uspSchema} from "./widget-runtime/WidgetConfig/validation.ts";
 import {activity} from "./activity";
+import {WIDGET_ID} from "./mountWidget.tsx";
 
 export interface UspWidgetConfig {
     /**
