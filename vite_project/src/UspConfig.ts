@@ -1,7 +1,6 @@
 import {type UspSettings, type UspSlide} from "./components/Types.ts";
-import {uspSchema} from "./widget-runtime/WidgetConfig/validation.ts";
 import {activity} from "./activity";
-import {WIDGET_ID} from "./mountWidget.tsx";
+import {loadContract} from "./widget-runtime/lib/contractLoader.ts";
 
 export interface UspWidgetConfig {
     /**
@@ -15,32 +14,12 @@ export interface UspWidgetConfig {
     readonly settings: UspSettings;
 }
 
-export function readUspConfig(
+export async function readWidgetConfig(
     hostElement: HTMLElement
-): UspWidgetConfig | null {
-    const configScript = hostElement.querySelector<HTMLScriptElement>(
-        'script[type="application/json"][data-config]'
-    );
+): Promise<UspWidgetConfig | null> {
+    const contract = await loadContract(hostElement);
 
-    if (!configScript) {
-        throw new Error(`${WIDGET_ID} widget requires a <script data-config> block.`);
-    }
+    activity('bootstrap', 'Config resolved', contract);
 
-    let raw: unknown;
-
-    try {
-        raw = JSON.parse(configScript.textContent || "{}");
-    } catch {
-        activity('config', "Invalid JSON", null, 'error');
-        return null;
-    }
-
-    const parsed = uspSchema.safeParse(raw);
-
-    if (!parsed.success) {
-        activity('config', "contract invalid", { error: parsed.error });
-        return null;
-    }
-
-    return Object.freeze(parsed.data);
+    return Object.freeze(contract);
 }

@@ -2,32 +2,7 @@
 <script type="module" src="./src/widget.ts"></script>
 
 <div class="usp" id="home-usp" style="min-height:45px">
-    <usp-widget>
-        <script type="application/json" data-config>
-            {
-                "data": {
-                    "slides": [
-                        {
-                            "text": "Over 20 years of experience"
-                        },
-                        {
-                            "text": "Local specialists you can trust"
-                        },
-                        {
-                            "text": "Fully accredited &amp; insured"
-                        }
-                    ]
-                },
-                "settings": {
-                    "mode": {
-                        "desktop": "static",
-                        "tablet": "slider",
-                        "mobile": "slider"
-                    }
-                }
-            }
-        </script>
-    </usp-widget>
+    <usp-widget data-contract="/cdn/uk.json" />
 </div>
 
 </body>

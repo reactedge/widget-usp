@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const UspWidgetWrapper = ({ host, onStable }: Props) => {
-    const config = useWidgetConfig(host);
+    const {config} = useWidgetConfig(host);
 
     if (!config) return null;
 
