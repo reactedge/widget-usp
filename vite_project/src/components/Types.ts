@@ -25,8 +25,11 @@ export interface UspSlide {
 
 export type UspModeValue = "static" | "slider";
 
+export type UspTheme = "light" | "dark" | "promo"
+
 export interface UspSettings {
     mode: UspMode;
+    theme: UspTheme
 }
 
 export interface UspMode {

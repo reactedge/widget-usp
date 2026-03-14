@@ -10,7 +10,7 @@
 .arrowBtn {
     appearance: none;
     background: var(--re-usp-arrow-bg, rgba(0,0,0,0.05));
-    color: var(--re-usp-arrow-color, #fff);
+    color: var(--re-usp-arrow-color, #2563EB);
     border: none;
     padding: var(--re-usp-arrow-padding, 0.5rem);
     border-radius: var(--re-usp-arrow-radius, 999px);
