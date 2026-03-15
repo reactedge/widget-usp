@@ -1,11 +1,18 @@
-export function fallback(root: HTMLElement) {
-    const container = root.parentNode;
-    const fallback = container?.querySelector(".fallback");
+import {activity} from "../activity";
+import {WIDGET_ID} from "../mountWidget.tsx";
 
-    if (!fallback) return;
+export function fallback() {
+    const fallbackId = `.${WIDGET_ID}-fallback`
+    const fallback = document?.querySelector(fallbackId);
+
+    if (!fallback) {
+        activity('fallback', 'Fallback not found', fallbackId, 'error');
+        return;
+    }
 
     try {
         fallback.setAttribute("style", "display: none");
+        activity('fallback', 'Fallback disabled', fallback);
     } catch {
         // fallback stays visible
     }

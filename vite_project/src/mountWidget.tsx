@@ -40,5 +40,5 @@ export function mountWidget(hostElement: HTMLElement) {
 
     activity('bootstrap', 'Widget mounted');
 
-    fallback(hostElement)
+    fallback()
 }
