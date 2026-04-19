@@ -43,13 +43,14 @@ jobs:
 
       - name: Prepare artifact
         run: |
+          chmod +x scripts/build-widget.sh
           ./scripts/build-widget.sh usp
 
       - name: Publish artifact
         run: |
           ssh ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }} \
             "mkdir -p /var/www/widgets/usp"
-           rsync -av \
+          rsync -av \
             --chown=www-data:www-data \
             ${{ steps.prepare_artifact.outputs.file }} \
             www/widget-usp.manifest.json \
