@@ -10,8 +10,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     environment: reactedge
-    env:
-      WIDGET_NAME: usp
 
     steps:
       - name: Checkout
@@ -52,9 +50,9 @@ jobs:
         id: prepare_artifact
         run: |
           VERSION=$(node -p "require('./vite_project/package.json').version") 
-          FILE="www/widget-${WIDGET_NAME}@${VERSION}.iife.js"
+          FILE="www/widget-usp@${VERSION}.iife.js"
           HASH=$(openssl dgst -sha256 -binary "$FILE" | openssl base64 -A | tr '+/' '-_' | tr -d '=')
-          NEW_FILE="www/widget-${WIDGET_NAME}@${HASH}.iife.js"      
+          NEW_FILE="www/widget-usp@${HASH}.iife.js"      
           mv "$FILE" "$NEW_FILE"      
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "hash=$HASH" >> $GITHUB_OUTPUT
@@ -62,26 +60,26 @@ jobs:
 
       - name: Generate manifest
         run: |
-          cat <<EOF > www/widget-${WIDGET_NAME}.manifest.json
+          cat <<EOF > www/widget-usp.manifest.json
           {
-            "widget": "${WIDGET_NAME}",
+            "widget": "usp",
             "version": "${{ steps.prepare_artifact.outputs.version }}",
             "hash": "${{ steps.prepare_artifact.outputs.hash }}",
-            "filename": "widget-${WIDGET_NAME}@${{ steps.prepare_artifact.outputs.hash }}.iife.js",
+            "filename": "widget-usp@${{ steps.prepare_artifact.outputs.hash }}.iife.js",
             "built_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           }
           EOF
 
       - name: Publish artifact
-        run: |                
+        run: |
           ssh ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }} \
-            "mkdir -p /var/www/widgets/${WIDGET_NAME}"
+            "mkdir -p /var/www/widgets/usp"
            rsync -av \
             --chown=www-data:www-data \
             ${{ steps.prepare_artifact.outputs.file }} \
-            www/widget-${WIDGET_NAME}.manifest.json \
-            ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/${WIDGET_NAME}/
-      
+            www/widget-usp.manifest.json \
+            ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/usp/
+          
           rsync -avz \
             www/cdn/ \
-            ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/${WIDGET_NAME}/cdn/
+            ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/usp/cdn/
