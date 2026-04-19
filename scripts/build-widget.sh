@@ -26,7 +26,11 @@ HASH=$(echo "$HASH" | tr '+/' '-_' | tr -d '=')
 
 NEW_FILE="${BASE_DIR}/widget-${WIDGET_NAME}@${HASH}.iife.js"
 
-mv "$FILE" "$NEW_FILE"
+if [ "$FILE" != "$NEW_FILE" ]; then
+  mv "$FILE" "$NEW_FILE"
+else
+  echo "File already correctly named, skipping mv"
+fi
 
 MANIFEST="${BASE_DIR}/widget-${WIDGET_NAME}.manifest.json"
 
