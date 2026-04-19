@@ -46,15 +46,40 @@ jobs:
 
           ssh-keyscan -H "${{ secrets.WIDGET_SSH_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Publish artifact
+      - name: Prepare artifact (hash + rename)
+        id: prepare_artifact
         run: |
-          VERSION=$(node -p "require('./vite_project/package.json').version")        
+          VERSION=$(node -p "require('./vite_project/package.json').version") 
+          FILE="www/widget-usp@${VERSION}.iife.js"
+          HASH=$(openssl dgst -sha256 -binary "$FILE" | openssl base64 -A | tr '+/' '-_' | tr -d '=')
+          NEW_FILE="www/widget-usp@${HASH}.iife.js"      
+          mv "$FILE" "$NEW_FILE"      
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "hash=$HASH" >> $GITHUB_OUTPUT
+          echo "file=$NEW_FILE" >> $GITHUB_OUTPUT
+
+      - name: Generate manifest
+        run: |
+          cat <<EOF > www/widget-usp.manifest.json
+          {
+            "widget": "usp",
+            "version": "${{ steps.prepare_artifact.outputs.version }}",
+            "hash": "${{ steps.prepare_artifact.outputs.hash }}",
+            "filename": "widget-usp@${{ steps.prepare_artifact.outputs.hash }}.iife.js",
+            "built_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+
+      - name: Publish artifact
+        run: |                
           ssh ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }} \
             "mkdir -p /var/www/widgets/usp"
-          rsync -av \
+           rsync -av \
             --chown=www-data:www-data \
-            www/widget-usp@${VERSION}.iife.js* \
+            ${{ steps.prepare_artifact.outputs.file }} \
+            www/widget-usp.manifest.json \
             ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/usp/
+      
           rsync -avz \
             www/cdn/ \
             ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/usp/cdn/
