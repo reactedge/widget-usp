@@ -63,7 +63,7 @@ jobs:
             "widget": "usp",
             "version": "${{ steps.prepare_artifact.outputs.version }}",
             "hash": "${{ steps.prepare_artifact.outputs.hash }}",
-            "filename": "widget-usp@${{ steps.prepare_artifact.outputs.hash }}.iife.js",
+            "filename": "widget-usp@${{ steps.prepare_artifact.outputs.version }}.iife.js",
             "built_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           }
           EOF
