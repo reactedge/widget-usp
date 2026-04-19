@@ -49,9 +49,15 @@ jobs:
           chmod +x scripts/build-widget.sh
           ./scripts/build-widget.sh ${WIDGET_NAME}
 
+      - name: Debug outputs
+        run: |
+          echo "FILE: ${{ steps.prepare_artifact.outputs.file }}"
+          ls -l www/
+
       - name: Publish artifact
         run: |
           DEST="/var/www/widgets/${WIDGET_NAME}"
+          echo "DEST: ${DEST}"
 
           ssh ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }} \
           "mkdir -p $DEST"
