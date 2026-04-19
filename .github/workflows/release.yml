@@ -10,6 +10,8 @@ jobs:
   release:
     runs-on: ubuntu-latest
     environment: reactedge
+    env:
+      WIDGET_NAME: usp
 
     steps:
       - name: Checkout
@@ -44,18 +46,18 @@ jobs:
       - name: Prepare artifact
         run: |
           chmod +x scripts/build-widget.sh
-          ./scripts/build-widget.sh usp
+          ./scripts/build-widget.sh ${WIDGET_NAME}
 
       - name: Publish artifact
         run: |
           ssh ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }} \
-            "mkdir -p /var/www/widgets/usp"
+            "mkdir -p /var/www/widgets/${WIDGET_NAME}"
           rsync -av \
             --chown=www-data:www-data \
             ${{ steps.prepare_artifact.outputs.file }} \
-            www/widget-usp.manifest.json \
-            ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/usp/
+            www/widget-${WIDGET_NAME}.manifest.json \
+            ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/${WIDGET_NAME}/
           
           rsync -avz \
             www/cdn/ \
-            ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/usp/cdn/
+            ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:/var/www/widgets/${WIDGET_NAME}/cdn/
