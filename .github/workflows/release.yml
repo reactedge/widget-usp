@@ -41,27 +41,9 @@ jobs:
 
           ssh-keyscan -H "${{ secrets.WIDGET_SSH_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Prepare artifact (hash + rename)
-        id: prepare_artifact
+      - name: Prepare artifact
         run: |
-          VERSION=$(node -p "require('./vite_project/package.json').version")         
-          HASH=$(openssl dgst -sha256 -binary "$FILE" | openssl base64 -A)
-          FILE="www/widget-usp@${HASH}.iife.js"       
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "hash=$HASH" >> $GITHUB_OUTPUT
-          echo "file=$FILE" >> $GITHUB_OUTPUT
-
-      - name: Generate manifest
-        run: |
-          cat <<EOF > www/widget-usp.manifest.json
-          {
-            "widget": "usp",
-            "version": "${{ steps.prepare_artifact.outputs.version }}",
-            "hash": "${{ steps.prepare_artifact.outputs.hash }}",
-            "filename": "widget-usp@${{ steps.prepare_artifact.outputs.hash }}.iife.js",
-            "built_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          }
-          EOF
+          ./scripts/build-widget.sh usp
 
       - name: Publish artifact
         run: |
