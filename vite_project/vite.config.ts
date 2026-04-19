@@ -3,13 +3,14 @@ import react from '@vitejs/plugin-react-swc'
 import pkg from './package.json'
 import { manifestPlugin } from './manifestPlugin'
 
+const widgetName = 'usp';
 export default defineConfig({
   plugins: [
     react(),
-    manifestPlugin({ widgetName: 'usp' })
+    manifestPlugin({ widgetName }),
   ],
   define: {
-    'process.env': {},
+    'process.env.WIDGET_NAME': JSON.stringify(widgetName)
   },
   build: {
     outDir: "../www",
@@ -18,13 +19,13 @@ export default defineConfig({
     lib: {
       entry: "src/widget.ts",
       name: "WidgetUsp",
-      fileName: () => `widget-usp@${pkg.version}.iife.js`,
+      fileName: () => `widget-${widgetName}@${pkg.version}.iife.js`,
       formats: ["iife"],
     },
     rollupOptions: {
       output: {
         inlineDynamicImports: true,
-        assetFileNames: "widget-usp.[ext]",
+        assetFileNames: `widget-${widgetName}.[ext]`,
       },
     },
     minify: true,
