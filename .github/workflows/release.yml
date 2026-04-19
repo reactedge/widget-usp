@@ -44,6 +44,7 @@ jobs:
           ssh-keyscan -H "${{ secrets.WIDGET_SSH_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Prepare artifact
+        id: prepare_artifact
         run: |
           chmod +x scripts/build-widget.sh
           ./scripts/build-widget.sh ${WIDGET_NAME}
