@@ -9,7 +9,7 @@ if [ -z "$WIDGET_NAME" ]; then
   exit 1
 fi
 
-VERSION=$(node -p "require('./vite_project/package.json').version")
+VERSION=$(node -p "require('../vite_project/package.json').version")
 
 FILE="${BASE_DIR}/widget-${WIDGET_NAME}@${VERSION}.iife.js"
 
