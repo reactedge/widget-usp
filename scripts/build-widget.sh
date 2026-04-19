@@ -21,7 +21,7 @@ if [ "$COUNT" -ne 1 ]; then
 fi
 
 # IMPORTANT: keep base64 (NOT url-safe) for SRI
-HASH_SRI=$(openssl dgst -sha256 -binary "$FILE" | openssl base64 -A)
+HASH=$(openssl dgst -sha256 -binary "$FILE" | openssl base64 -A)
 
 NEW_FILE="${BASE_DIR}/widget-${WIDGET_NAME}@${HASH}.iife.js"
 
