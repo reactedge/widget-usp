@@ -49,14 +49,12 @@ jobs:
       - name: Prepare artifact (hash + rename)
         id: prepare_artifact
         run: |
-          VERSION=$(node -p "require('./vite_project/package.json').version") 
-          FILE="www/widget-usp@${VERSION}.iife.js"
-          HASH=$(openssl dgst -sha256 -binary "$FILE" | openssl base64 -A | tr '+/' '-_' | tr -d '=')
-          NEW_FILE="www/widget-usp@${HASH}.iife.js"      
-          mv "$FILE" "$NEW_FILE"      
+          VERSION=$(node -p "require('./vite_project/package.json').version")         
+          HASH=$(openssl dgst -sha256 -binary "$FILE" | openssl base64 -A)
+          FILE="www/widget-usp@${HASH}.iife.js" 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "hash=$HASH" >> $GITHUB_OUTPUT
-          echo "file=$NEW_FILE" >> $GITHUB_OUTPUT
+          echo "file=$FILE" >> $GITHUB_OUTPUT
 
       - name: Generate manifest
         run: |
