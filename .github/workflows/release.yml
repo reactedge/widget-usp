@@ -28,11 +28,6 @@ jobs:
         working-directory: vite_project
         run: npm run build
 
-      - name: Verify artifact exists
-        run: |
-          VERSION=$(node -p "require('./vite_project/package.json').version")
-          test -f "www/widget-usp@${VERSION}.iife.js"
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
@@ -51,7 +46,7 @@ jobs:
         run: |
           VERSION=$(node -p "require('./vite_project/package.json').version")         
           HASH=$(openssl dgst -sha256 -binary "$FILE" | openssl base64 -A)
-          FILE="www/widget-usp@${HASH}.iife.js" 
+          FILE="www/widget-usp@${HASH}.iife.js"       
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "hash=$HASH" >> $GITHUB_OUTPUT
           echo "file=$FILE" >> $GITHUB_OUTPUT
