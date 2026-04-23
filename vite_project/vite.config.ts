@@ -18,7 +18,6 @@ export default defineConfig({
     emptyOutDir: false,
     lib: {
       entry: "src/widget.ts",
-      name: "WidgetUsp",
       fileName: () => `widget-${widgetName}@${pkg.version}.iife.js`,
       formats: ["iife"],
     },
