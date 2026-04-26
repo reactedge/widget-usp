@@ -9,6 +9,8 @@ const cache = { name: 'usp', version: 'v1' };
 
 export const WIDGET_ID = 'usp';
 
+import './styles/usp.css'
+
 export function mountWidget(hostElement: HTMLElement) {
     const mountedHost = getMountedHost(hostElement);
 
