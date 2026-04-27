@@ -1,14 +1,14 @@
-import {useWidgetConfig} from "./hooks/useWidgetConfig.ts";
 import {UspWidget} from "./components/UspWidget.tsx";
 import {Spinner} from "./components/Spinner.tsx";
+import {readWidgetConfig, type UspWidgetConfig} from "./UspConfig.ts";
 
 type Props = {
-    host: HTMLElement;
+    rawConfig: UspWidgetConfig;
     onStable?: () => void;
 };
 
-export const UspWidgetWrapper = ({ host, onStable }: Props) => {
-    const {config} = useWidgetConfig(host);
+export const UspWidgetWrapper = ({ rawConfig, onStable }: Props) => {
+    const config = readWidgetConfig(rawConfig);
 
     if (!config) return null;
 

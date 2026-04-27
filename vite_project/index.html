@@ -4,6 +4,25 @@
 
 <h2>USP x2 Test</h2>
 
+
+<script type="module">
+    export const registry = {
+        usp: {
+            cdn: '/cdn/uk.json'
+        }
+    };
+
+    import { mount } from './src/widget.ts';
+    import {loadContractByName} from './src/widget-runtime/lib/contractLoader.ts';
+
+    const el = document.querySelector('usp-widget');
+
+    const config = await loadContractByName('usp', registry);
+
+    mount(el, config);
+</script>
+
+
 <!-- ========================= -->
 <!-- USP INSTANCE 1 -->
 <!-- ========================= -->
@@ -15,24 +34,9 @@
         <div class="usp-tile"><span>Fallback B</span></div>
     </div>
 
-    <usp-widget data-contract="/cdn/uk.json"></usp-widget>
+    <usp-widget></usp-widget>
 
 </div>
-
-
-<!-- ========================= -->
-<!-- MEGAMENU -->
-<!-- ========================= -->
-<div class="megamenu">
-    <megamenu-widget
-            data-instance="main-nav"
-            data-contract="/cdn/fr.json">
-        <div class="widget-spinner"></div>
-    </megamenu-widget>
-</div>
-
-<script type="module" src="./src/widget.ts"></script>
-<script type="module" src="../../widget-megamenu/vite_project/src/widget.ts"></script>
 
 </body>
 </html>

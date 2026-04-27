@@ -10,8 +10,9 @@ const cache = { name: 'usp', version: 'v1' };
 export const WIDGET_ID = 'usp';
 
 import './styles/usp.css'
+import {type UspWidgetConfig} from "./UspConfig.ts";
 
-export function mountWidget(hostElement: HTMLElement) {
+export async function mountWidget(hostElement: HTMLElement, config: UspWidgetConfig) {
     const mountedHost = getMountedHost(hostElement);
 
     const { restored } = restoreCache(mountedHost, cache);
@@ -29,7 +30,7 @@ export function mountWidget(hostElement: HTMLElement) {
 
     const element = (
         <UspWidgetWrapper
-            host={hostElement}
+            rawConfig={config}
             onStable={() => {
                 snapshotCache(mountedHost, cache)
             }}

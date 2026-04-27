@@ -1,9 +1,10 @@
-import { mountWidget } from "./mountWidget";
+import type {UspWidgetConfig} from "./UspConfig.ts";
+import {mountWidget} from "./mountWidget.tsx";
 
-class UspWidget extends HTMLElement {
-    connectedCallback() {
-        mountWidget(this);
+export async function mount(el: HTMLElement, config: UspWidgetConfig) {
+    if (!config) {
+        throw new Error('Config is required');
     }
-}
 
-customElements.define("usp-widget", UspWidget);
+   await mountWidget(el, config)
+}

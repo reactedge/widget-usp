@@ -1,6 +1,5 @@
 import {type UspSettings, type UspSlide} from "./components/Types.ts";
 import {activity} from "./activity";
-import {loadContract} from "./widget-runtime/lib/contractLoader.ts";
 import {WIDGET_ID} from "./mountWidget.tsx";
 
 export interface UspWidgetConfig {
@@ -15,14 +14,12 @@ export interface UspWidgetConfig {
     readonly settings: UspSettings;
 }
 
-export async function readWidgetConfig(
-    hostElement: HTMLElement
-): Promise<UspWidgetConfig | null> {
-    let contract = null
-    try {
-        contract = await loadContract(hostElement);
-    } catch (e) {
-        contract = extractConfig()
+export function readWidgetConfig(
+    rawConfig: UspWidgetConfig
+): UspWidgetConfig {
+    let contract = rawConfig
+    if (contract === null) {
+        contract = extractConfig() as UspWidgetConfig
     }
 
     activity('bootstrap', 'Config resolved', contract);
