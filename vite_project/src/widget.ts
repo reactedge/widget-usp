@@ -1,10 +1,12 @@
 import type {UspWidgetConfig} from "./UspConfig.ts";
-import {mountWidget} from "./mountWidget.tsx";
+import {mountWidget, WIDGET_ID} from "./mountWidget.tsx";
 
-export async function mount(el: HTMLElement, config: UspWidgetConfig) {
-    if (!config) {
-        throw new Error('Config is required');
-    }
-
+const mount = async (el: HTMLElement, config: UspWidgetConfig) => {
    await mountWidget(el, config)
 }
+
+const api = { mount };
+
+(window as any)[`ReactEdge_${WIDGET_ID}`] = api;
+
+export { mount };
