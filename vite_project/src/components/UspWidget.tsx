@@ -1,4 +1,4 @@
-import {useEffect, useLayoutEffect, useState} from "react";
+import { useState} from "react";
 import {UspStatic} from "./UspStatic.tsx";
 import {UspSlider} from "./UspSlider.tsx";
 import {Spinner} from "./Spinner.tsx";
@@ -10,43 +10,27 @@ type Props = {
 };
 
 export const UspWidget = ({ onStable, config }: Props) => {
-    const [mode, setMode] = useState<'static' | 'slider' | null>(null);
+    const getMode = () => {
+        if (window.matchMedia("(max-width: 640px)").matches)
+            return config.settings.mode.mobile;
 
-    useLayoutEffect(() => {
-        const width = window.innerWidth;
+        if (window.matchMedia("(max-width: 1024px)").matches)
+            return config.settings.mode.tablet;
 
-        if (width >= 1024) setMode(config.settings.mode.desktop);
-        else if (width >= 768) setMode(config.settings.mode.tablet);
-        else setMode(config.settings.mode.mobile);
-    }, []);
+        return config.settings.mode.desktop;
+    };
 
-    const isVolatileEnvironment =
-        window.matchMedia('(max-width: 1023px)').matches ||
-        'ontouchstart' in window;
+    const [mode] = useState(getMode);
 
-    useEffect(() => {
-        if (!config.data.slides.length) return;
-        if (!mode) return;
-        if (isVolatileEnvironment) return;
-
+    requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                onStable?.();
-            });
+            onStable?.();
         });
-    }, [config.data.slides.length, mode]);
+    });
 
     if (config.data.slides.length === 0) return <Spinner />;
 
-    const isMobile = window.matchMedia("(max-width: 640px)").matches;
-    const isTablet = window.matchMedia("(min-width: 641px) and (max-width: 1024px)").matches;
-
-    let currentMode = config.settings.mode.desktop;
-
-    if (isMobile) currentMode = config.settings.mode.mobile;
-    else if (isTablet) currentMode = config.settings.mode.tablet;
-
-    if (currentMode === "slider") {
+    if (mode === "slider") {
         return <UspSlider slides={config.data.slides} config={config.settings}/>;
     }
 

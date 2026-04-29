@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>USP x2 Test</h2>
+
+
+<script type="module">
+    export const registry = {
+        usp: {
+            cdn: '/cdn/uk.json'
+        },
+        usp2: {
+            cdn: '/cdn/fr.json'
+        },
+        usp3: {
+            cdn: '/cdn/reactedge.json'
+        }
+    };
+
+    import { mount } from './src/widget.ts';
+    import {loadContractByName} from './src/widget-runtime/lib/contractLoader.ts';
+
+    const [config1, config2, config3] = await Promise.all([
+        loadContractByName('usp', registry),
+        loadContractByName('usp2', registry),
+        loadContractByName('usp3', registry)
+    ]);
+
+    const configs = [config1, config2, config3];
+
+    const elements = Array.from(document.querySelectorAll('usp-widget'));
+
+    function delay(ms) {
+        return new Promise(r => setTimeout(r, ms));
+    }
+
+    await Promise.all(
+        elements.map(async (el, i) => {
+            const config = configs[i % configs.length];
+
+            await delay(Math.random() * 300); // 🔥 simulate network jitter
+
+            requestAnimationFrame(() => {
+                mount(el, config);
+            });
+        })
+    );
+
+    ['offsetWidth','offsetHeight','clientWidth','clientHeight'].forEach(prop => {
+        const desc = Object.getOwnPropertyDescriptor(Element.prototype, prop);
+        Object.defineProperty(Element.prototype, prop, {
+            get() {
+                console.trace(`LAYOUT READ: ${prop}`);
+                return desc.get.call(this);
+            }
+        });
+    });
+</script>
+
+<div id="root"></div>
+
+<script>
+    const root = document.getElementById('root');
+
+    for (let i = 0; i < 10; i++) {
+        const el = document.createElement('usp-widget');
+        root.appendChild(el);
+    }
+</script>
+
+
+<!-- ========================= -->
+<!-- USP INSTANCE 1 -->
+<!-- ========================= -->
+<div class="usp" id="home-usp-1">
+
+    <div class="usp-fallback">
+        <div class="usp-tile"><span>Instance 1</span></div>
+        <div class="usp-tile"><span>Fallback A</span></div>
+        <div class="usp-tile"><span>Fallback B</span></div>
+    </div>
+
+    <div style="width: 320px;">
+        test1
+        <usp-widget></usp-widget>
+    </div>
+
+    <div style="width: 768px;">
+        test 2
+        <usp-widget></usp-widget>
+    </div>
+
+    <div style="width: 1200px;">
+        test 3
+        <usp-widget></usp-widget>
+    </div>
+
+</div>
+
+</body>
+</html>
