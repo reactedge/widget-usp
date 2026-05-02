@@ -1,21 +1,12 @@
-.uspStatic {
-    display: grid;
-    width: 100%;
-    gap: var(--re-usp-gap, 1.25rem);
+.usp-static-bar  {
+    height: 20px;
 }
 
-.uspStatic--mobile {
-    grid-template-columns: 1fr;
-}
-
-.uspStatic--tablet {
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.uspStatic--desktop {
-    grid-template-columns: repeat(3, 1fr);
-}
-
-.uspStatic__tile {
-    width: 100%;
+.usp-static-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    font-size: 14px;
+    text-align: center;
 }

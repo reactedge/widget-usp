@@ -1,8 +1,9 @@
-import { useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {UspStatic} from "./UspStatic.tsx";
 import {UspSlider} from "./UspSlider.tsx";
 import {Spinner} from "./Spinner.tsx";
 import type {UspWidgetConfig} from "../UspConfig.ts";
+import {resolveMode} from "../lib/media-queries.ts";
 
 type Props = {
     onStable?: () => void;
@@ -10,30 +11,48 @@ type Props = {
 };
 
 export const UspWidget = ({ onStable, config }: Props) => {
-    const getMode = () => {
-        if (window.matchMedia("(max-width: 640px)").matches)
-            return config.settings.mode.mobile;
+    const ref = useRef<HTMLDivElement>(null);
+    const [mode, setMode] = useState(config.settings.mode.desktop);
 
-        if (window.matchMedia("(max-width: 1024px)").matches)
-            return config.settings.mode.tablet;
+    useEffect(() => {
+        if (!ref.current) return;
 
-        return config.settings.mode.desktop;
-    };
+        const observer = new ResizeObserver(([entry]) => {
+            const width = entry.contentRect.width;
 
-    const [mode] = useState(getMode);
+            setMode(prev => {
+                const next = resolveMode(width, config);
+                return prev === next ? prev : next;
+            });
+        });
 
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
+        observer.observe(ref.current);
+
+        return () => observer.disconnect();
+    }, [config]);
+
+    // fire once after first render (not every render)
+    useEffect(() => {
+        const id = requestAnimationFrame(() => {
             onStable?.();
         });
-    });
 
-    if (config.data.slides.length === 0) return <Spinner />;
+        return () => cancelAnimationFrame(id);
+    }, []);
 
-    if (mode === "slider") {
-        return <UspSlider slides={config.data.slides} config={config.settings}/>;
+    // --- render logic (clean, outside JSX) ---
+    if (config.data.slides.length === 0) {
+        return <Spinner />;
     }
 
-    return <UspStatic slides={config.data.slides} config={config.settings} />;
-};
+    const content =
+        mode === "slider"
+            ? <UspSlider slides={config.data.slides} config={config.settings} />
+            : <UspStatic slides={config.data.slides} config={config.settings} />;
 
+    return (
+        <div ref={ref}>
+            {content}
+        </div>
+    );
+};

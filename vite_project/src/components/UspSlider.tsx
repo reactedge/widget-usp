@@ -6,13 +6,11 @@ import { UspSlide } from "./UspSlide.tsx";
 export function UspSlider({ slides, config }: UspSliderProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const ratio = config.mode.desktop || "16:7";
-    const [w, h] = ratio.split(":").map(Number);
-    const paddingTop = (h / w) * 100;
-
     return (
-        <div className={`uspSlider ${config.theme || 'light'}`}>
-            <div className="uspSlider__inner" style={{ paddingTop: `${paddingTop}%` }}>
+        <div className={`usp-slider-bar ${config.theme || 'light'}`}>
+            <div className="usp-slider__inner"
+                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
                 {slides.map((slide, i) => (
                     <UspSlide
                         key={i}
