@@ -11,7 +11,7 @@ export function UspSlider({ slides, config }: UspSliderProps) {
     const paddingTop = (h / w) * 100;
 
     return (
-        <div className="uspSlider">
+        <div className={`uspSlider ${config.theme || 'light'}`}>
             <div className="uspSlider__inner" style={{ paddingTop: `${paddingTop}%` }}>
                 {slides.map((slide, i) => (
                     <UspSlide

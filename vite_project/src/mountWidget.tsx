@@ -37,7 +37,7 @@ export async function mountWidget(hostElement: HTMLElement, config: UspWidgetCon
         />
     );
 
-    createRoot(mountNode).render(<div className="reactedge-usp">
+    createRoot(mountNode).render(<div className={`reactedge-usp ${config?.settings?.theme || 'light'}`}>
         {element}
     </div>);
 

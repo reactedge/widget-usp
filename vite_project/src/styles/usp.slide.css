@@ -9,6 +9,21 @@
     text-align: center;
 }
 
+.uspSlider.dark .uspBaseWrapper {
+    background: brown;
+    color: white;
+}
+
+.uspSlider.light .uspBaseWrapper {
+    background: #EAF3FF;
+    color: #0d419d;
+}
+
+.uspSlider.promo .uspBaseWrapper {
+    background: linear-gradient(to right, #f97316, #ec4899);
+    color: white;
+}
+
 .uspSlide--inactive {
     position: absolute;
     inset: 0;

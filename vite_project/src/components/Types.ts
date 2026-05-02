@@ -11,6 +11,7 @@ export interface UspSliderProps {
 
 export interface UspStaticProps {
     slides:  UspSlide[];
+    config: UspSettings;
 }
 
 export interface UspSlideProps {

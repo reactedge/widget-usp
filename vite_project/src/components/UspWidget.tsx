@@ -34,6 +34,6 @@ export const UspWidget = ({ onStable, config }: Props) => {
         return <UspSlider slides={config.data.slides} config={config.settings}/>;
     }
 
-    return <UspStatic slides={config.data.slides} />;
+    return <UspStatic slides={config.data.slides} config={config.settings} />;
 };
 

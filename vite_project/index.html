@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<h2>USP x2 Test</h2>
+<h2>usp x2 Test</h2>
 
 
 <script type="module">
@@ -11,7 +11,16 @@
     import { mount } from './src/widget.ts';
 
     const configs = await Promise.all(
-        manifest.contracts.map(url => fetch(url).then(r => r.json()))
+        manifest.contracts.map(async (url) => {
+            const data = await fetch(url).then(r => r.json());
+
+            return {
+                url,
+                id: url.split('/').pop(),
+                version: data.version || 'v1',
+                data
+            };
+        })
     );
 
     function pickRandom(arr) {
@@ -24,6 +33,8 @@
 
     const instances = 10 + Math.floor(Math.random() * 10);
 
+    const instancesMap = [];
+
     for (let i = 0; i < instances; i++) {
         const container = document.createElement('div');
 
@@ -31,26 +42,44 @@
         container.style.width = width + 'px';
         container.style.margin = '10px';
         container.style.border = '1px dashed #ccc';
+        container.style.display = 'flex';
+        container.style.gap = '10px';
 
-        const el = document.createElement('usp-widget');
-        container.appendChild(el);
+        const widgetWrapper = document.createElement('div');
+        widgetWrapper.style.flex = '1';
+
+        const el = document.createElement('uspmulti-widget');
+        widgetWrapper.appendChild(el);
+
+        const contractViewer = document.createElement('pre');
+
+        container.appendChild(widgetWrapper);
+        container.appendChild(contractViewer);
+
         root.appendChild(container);
-    }
 
-    const elements = Array.from(document.querySelectorAll('usp-widget'));
+        instancesMap.push({ el, width, contractViewer });
+    }
 
     function delay(ms) {
         return new Promise(r => setTimeout(r, ms));
     }
 
     await Promise.all(
-        elements.map(async (el) => {
+        instancesMap.map(async ({ el, width, contractViewer }) => {
             const config = pickRandom(configs);
 
             await delay(Math.random() * 300);
 
+            // ✅ render contract in the correct viewer
+            contractViewer.textContent = JSON.stringify({
+                width: `${width}px`,
+                id: config.id,
+                settings: config.data.settings
+            }, null, 2);
+
             requestAnimationFrame(() => {
-                mount(el, config);
+                mount(el, config.data);
             });
         })
     );

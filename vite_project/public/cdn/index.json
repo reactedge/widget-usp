@@ -1,7 +1,10 @@
 {
   "contracts": [
-    "/cdn/uk.json",
-    "/cdn/fr.json",
-    "/cdn/reactedge.json"
+    "/cdn/usp-demo1.json",
+    "/cdn/usp-demo2.json",
+    "/cdn/usp-demo3.json",
+    "/cdn/usp-demo4.json",
+    "/cdn/usp-demo5.json",
+    "/cdn/usp-demo6.json"
   ]
 }
