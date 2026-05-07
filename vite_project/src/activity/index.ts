@@ -1,5 +1,5 @@
 import { isActivityEnabled } from './activity.guard';
-import {WIDGET_ID} from "../mountWidget.tsx";
+import {WIDGET_ID} from "../UspConfig.ts";
 
 type Level = 'info' | 'warn' | 'error';
 

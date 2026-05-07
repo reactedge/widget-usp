@@ -1,5 +1,6 @@
 {
   "contracts": [
+    "/cdn/reactedge.json",
     "/cdn/usp-demo1.json",
     "/cdn/usp-demo2.json",
     "/cdn/usp-demo3.json",

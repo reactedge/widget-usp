@@ -2,13 +2,13 @@
   "data": {
     "slides": [
       {
-        "text": "Clear, Versioned Boundaries"
+        "text": "Simple Store Changes"
       },
       {
-        "text": "Ship Without Expanding Risk"
+        "text": "Ship Without Breaking Things"
       },
       {
-        "text": "Works With Your Existing Platform"
+        "text": "Works Without Disruption"
       }
     ]
   },
@@ -17,6 +17,7 @@
       "desktop": "static",
       "tablet": "slider",
       "mobile": "slider"
-    }
+    },
+    "theme": "dark"
   }
 }

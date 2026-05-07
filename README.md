@@ -120,6 +120,14 @@ npm install
 npm run dev
 ```
 
+To run the widget in SSR mode:
+
+```bash
+cd vite_project
+npm install
+npx tsx --tsconfig tsconfig.app.json src/render-page.tsnp
+```
+
 To run the test suite:
 ```bash
 npx playwright test --config=tests/playwright.dev.config.ts

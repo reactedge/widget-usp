@@ -17,7 +17,7 @@ export default defineConfig({
     cssCodeSplit: true,
     emptyOutDir: false,
     lib: {
-      entry: "src/widget.ts",
+      entry: "src/csr/entry.ts",
       name: `ReactEdge_${widgetName}`,
       fileName: () => `widget-${widgetName}@${pkg.version}.iife.js`,
       formats: ["iife"],

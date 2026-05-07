@@ -1,8 +1,9 @@
-import type {UspWidgetConfig} from "./UspConfig.ts";
-import {mountWidget, WIDGET_ID} from "./mountWidget.tsx";
+import {type UspWidgetConfig, WIDGET_ID} from "../UspConfig.ts";
+import {mountWidget} from "./mountWidget.tsx";
+
 
 const mount = async (el: HTMLElement, config: UspWidgetConfig) => {
-   await mountWidget(el, config)
+    await mountWidget(el, config)
 }
 
 const api = { mount };

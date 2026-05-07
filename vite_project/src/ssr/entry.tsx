@@ -1,0 +1,11 @@
+import { renderToString } from 'react-dom/server';
+import type {UspWidgetConfig} from "../UspConfig.ts";
+import {UspWidgetView} from "../UspWidgetView.tsx";
+
+export const renderHtml = (config: UspWidgetConfig): string => {
+    return renderToString(
+        <div className="reactedge-usp">
+            <UspWidgetView rawConfig={config} />
+        </div>
+    );
+};
