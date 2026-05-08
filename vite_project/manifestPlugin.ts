@@ -59,12 +59,7 @@ export function manifestPlugin({ widgetName }: Options): Plugin {
                 built_at: new Date().toISOString()
             }
 
-            const outDir = path.resolve(
-                __dirname,
-                options.dir || 'www'
-            );
-
-            fs.mkdirSync(outDir, { recursive: true });
+            const outDir = options.dir || 'www'
 
             const manifestPath = path.join(
                 outDir,
