@@ -1,3 +1,4 @@
+import React from 'react';
 import type { UspSlideProps } from "./Types";
 
 export const UspSlide = ({ slide, isActive }: UspSlideProps) => {

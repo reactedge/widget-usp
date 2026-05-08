@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function SlideSeparator() {
     return (
         <div className="usp-separator">

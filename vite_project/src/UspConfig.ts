@@ -1,6 +1,5 @@
 import {type UspSettings, type UspSlide} from "./components/Types.ts";
 import {activity} from "./activity";
-import {WIDGET_ID} from "./mountWidget.tsx";
 
 export interface UspWidgetConfig {
     /**
@@ -13,6 +12,8 @@ export interface UspWidgetConfig {
 
     readonly settings: UspSettings;
 }
+
+export const WIDGET_ID = 'usp';
 
 export function readWidgetConfig(
     rawConfig: UspWidgetConfig
