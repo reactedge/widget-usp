@@ -1,3 +1,4 @@
+import React from 'react';
 import { renderToString } from 'react-dom/server';
 import type {UspWidgetConfig} from "../UspConfig.ts";
 import {UspWidgetView} from "../UspWidgetView.tsx";

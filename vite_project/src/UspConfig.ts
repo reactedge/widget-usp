@@ -13,7 +13,7 @@ export interface UspWidgetConfig {
     readonly settings: UspSettings;
 }
 
-export const WIDGET_ID = 'trustpilot';
+export const WIDGET_ID = 'usp';
 
 export function readWidgetConfig(
     rawConfig: UspWidgetConfig

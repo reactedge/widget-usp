@@ -1,3 +1,4 @@
+import React from 'react';
 import {useEffect, useRef, useState} from "react";
 import {UspStatic} from "./UspStatic.tsx";
 import {UspSlider} from "./UspSlider.tsx";

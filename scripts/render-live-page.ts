@@ -3,16 +3,13 @@ import {renderHtml} from "../vite_project/src/ssr/entry.tsx";
 import 'dotenv/config';
 
 const run = async () => {
-    const contractPath = process.argv[2];
+    const contractUrl = process.argv[2];
 
-    if (!contractPath) {
-        throw new Error('Missing contract path');
+    if (!contractUrl) {
+        throw new Error('Missing contract url');
     }
 
-    const config = JSON.parse(
-        await fs.readFile(contractPath, 'utf8')
-    );
-
+    const config = await fetch(contractUrl).then(r => r.json());
     const finalHtml = renderHtml(config)
 
     process.stdout.write(finalHtml);

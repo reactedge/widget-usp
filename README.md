@@ -123,9 +123,9 @@ npm run dev
 To run the widget in SSR mode:
 
 ```bash
-cd vite_project
+cd widget-usp
 npm install
-npx tsx --tsconfig tsconfig.app.json src/render-page.tsnp
+NODE_TLS_REJECT_UNAUTHORIZED=0 npx tsx scripts/render-page.ts ../widgets-cdn/www/usp/contracts/usp-demo1.json
 ```
 
 To run the test suite:
