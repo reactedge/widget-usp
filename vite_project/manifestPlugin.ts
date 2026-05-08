@@ -61,6 +61,8 @@ export function manifestPlugin({ widgetName }: Options): Plugin {
 
             const outDir = options.dir || 'www'
 
+            fs.mkdirSync(outDir, { recursive: true });
+
             const manifestPath = path.join(
                 outDir,
                 `widget-${widgetName}.manifest.json`
