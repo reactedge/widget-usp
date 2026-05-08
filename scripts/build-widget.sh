@@ -52,8 +52,6 @@ cat <<EOF > "$MANIFEST"
 }
 EOF
 
-if [ -n "$GITHUB_OUTPUT" ]; then
-  echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-  echo "hash=$HASH" >> "$GITHUB_OUTPUT"
-  echo "file=$NEW_FILE" >> "$GITHUB_OUTPUT"
-fi
+echo "version=$VERSION" >> $GITHUB_OUTPUT
+echo "hash=$HASH" >> $GITHUB_OUTPUT
+echo "file=$NEW_FILE" >> $GITHUB_OUTPUT

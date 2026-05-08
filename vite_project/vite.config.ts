@@ -1,11 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import pkg from './package.json'
+import { manifestPlugin } from './manifestPlugin'
 
 const widgetName = 'usp';
 export default defineConfig({
   plugins: [
-    react()
+    react(),
+    manifestPlugin({ widgetName }),
   ],
   define: {
     'process.env': {}
