@@ -1,5 +1,5 @@
-import {type UspWidgetConfig, WIDGET_ID} from "../UspConfig.ts";
 import {mountWidget} from "./mountWidget.tsx";
+import {type UspWidgetConfig, WIDGET_ID} from "./UspConfig.ts";
 
 
 const mount = async (el: HTMLElement, config: UspWidgetConfig) => {

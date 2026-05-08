@@ -11,7 +11,7 @@
 <script type="module">
     const manifest = await fetch('https://widgets-cdn.co.uk:8459/usp/contracts/index.json').then(r => r.json());
 
-    import { mount } from './src/csr/entry.ts';
+    import { mount } from './src/widget.ts';
 
     const configs = await Promise.all(
         manifest.contracts.map(async (url) => {

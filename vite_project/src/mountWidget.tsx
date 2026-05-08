@@ -1,7 +1,8 @@
 import {createRoot} from "react-dom/client";
-import {activity} from "../activity";
-import {UspWidgetWrapper} from "../UspWidgetWrapper.tsx";
-import type {UspWidgetConfig} from "../UspConfig.ts";
+import type {UspWidgetConfig} from "./UspConfig.ts";
+import React from "react";
+import {activity} from "./activity";
+import {UspWidgetWrapper} from "./UspWidgetWrapper.tsx";
 
 export async function mountWidget(hostElement: HTMLElement, config: UspWidgetConfig) {
     const mountedHost = hostElement;
