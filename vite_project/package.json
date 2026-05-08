@@ -1,12 +1,11 @@
 {
   "name": "widget-usp",
   "private": true,
-  "version": "2.0.10",
+  "version": "2.0.11",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && cd .. && ./scripts/build-widget.sh usp",
-    "release": "tsc -b && vite build",
+    "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

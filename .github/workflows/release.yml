@@ -28,7 +28,7 @@ jobs:
 
       - name: Build widget
         working-directory: vite_project
-        run: npm run release
+        run: npm run build
 
       - name: Setup SSH
         run: |
