@@ -7,7 +7,7 @@ export const UspSlide = ({ slide, isActive }: UspSlideProps) => {
     return (
         <div data-usp-slide
             data-usp-active={isActive || undefined}
-            >{text}</div>
+        >{text}</div>
     );
 
 };

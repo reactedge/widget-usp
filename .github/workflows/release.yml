@@ -69,3 +69,16 @@ jobs:
             "$FILE" \
             "www/widget-${WIDGET_NAME}.manifest.json" \
             ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:$DEST/
+
+      - name: Publish SSR widget source
+        run: |
+
+          DEST="/var/www/ssr/widgets/widget-${WIDGET_NAME}"
+
+          ssh ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }} \
+          "mkdir -p $DEST/vite_project/src"
+
+          rsync -av \
+            --delete \
+            vite_project/src/ \
+            ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:$DEST/vite_project/src/

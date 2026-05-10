@@ -9,22 +9,10 @@
 
 
 <script type="module">
-    const manifest = await fetch('https://widgets-cdn.co.uk:8459/usp/contracts/index.json').then(r => r.json());
-
+    import {getCdnManifest} from "./src/lib/contract-resolver.js";
     import { mount } from './src/widget.ts';
 
-    const configs = await Promise.all(
-        manifest.contracts.map(async (url) => {
-            const data = await fetch(url).then(r => r.json());
-
-            return {
-                url,
-                id: url.split('/').pop(),
-                version: data.version || 'v1',
-                data
-            };
-        })
-    );
+    const configs = await getCdnManifest();
 
     function pickRandom(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
