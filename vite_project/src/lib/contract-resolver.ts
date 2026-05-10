@@ -6,9 +6,9 @@ export async function getCdnManifest() {
 
     const configs = await Promise.all(
         manifest.contracts.map(async (contract: string) => {
-            console.log(contract)
+
             const data = await fetch(`${CDN_URL}/${WIDGET_ID}/contracts/${contract}`).then(r => r.json());
-            console.log(data)
+
             return {
                 url: contract,
                 id: contract.split('/').pop(),
@@ -19,4 +19,9 @@ export async function getCdnManifest() {
     );
 
     return configs
+}
+
+export async function loadContract(name: string) {
+    const data = await fetch(`${CDN_URL}/${WIDGET_ID}/contracts/${name}`).then(r => r.json());
+    return data;
 }
