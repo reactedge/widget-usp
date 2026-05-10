@@ -73,7 +73,7 @@ jobs:
       - name: Publish SSR widget source
         run: |
 
-          DEST="/var/www/ssr/widgets/widget-${WIDGET_NAME}"
+          DEST="/var/www/widgets_src/widget-${WIDGET_NAME}"
 
           ssh ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }} \
           "mkdir -p $DEST/vite_project/src"
