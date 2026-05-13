@@ -75,4 +75,4 @@ jobs:
           SSH_USER: ${{ secrets.WIDGET_SSH_USER }}
           SSH_HOST: ${{ secrets.WIDGET_SSH_HOST }}
         run: |
-          bash ../../scripts/deploy-ssr-widget.sh $WIDGET_NAME
+          bash scripts/deploy-ssr-widget.sh $WIDGET_NAME
