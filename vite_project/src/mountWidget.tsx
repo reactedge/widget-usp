@@ -3,9 +3,10 @@ import type {UspWidgetConfig} from "./UspConfig.ts";
 import React from "react";
 import {activity} from "./activity";
 import {UspWidgetWrapper} from "./UspWidgetWrapper.tsx";
+import {getMountedHost} from "./lib/hostReader.ts";
 
 export async function mountWidget(hostElement: HTMLElement, config: UspWidgetConfig) {
-    const mountedHost = hostElement;
+    const mountedHost = getMountedHost(hostElement);
 
     activity('bootstrap', 'Widget mounted', hostElement);
 
@@ -15,7 +16,5 @@ export async function mountWidget(hostElement: HTMLElement, config: UspWidgetCon
         />
     );
 
-    createRoot(mountedHost).render(<div className="reactedge-usp">
-        {element}
-    </div>);
+    createRoot(mountedHost).render(element);
 }
