@@ -1,4 +1,4 @@
-import {WIDGET_ID} from "../UspConfig.ts";
+import {WIDGET_ID} from "../Config.ts";
 
 const CDN_URL = 'https://widgets-cdn.co.uk:8459'
 export async function getCdnManifest() {

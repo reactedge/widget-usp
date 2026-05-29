@@ -1,15 +1,15 @@
-import type {UspWidgetConfig} from "../UspConfig.ts";
+import type {WidgetConfig} from "../Config.ts";
 import {activity} from "../activity";
 import {hydrateRoot} from "react-dom/client";
-import {UspWidgetWrapper} from "../UspWidgetWrapper.tsx";
+import {WidgetWrapper} from "../WidgetWrapper.tsx";
 
-export async function mountWidget(hostElement: HTMLElement, config: UspWidgetConfig) {
+export async function mountWidget(hostElement: HTMLElement, config: WidgetConfig) {
     const mountedHost = hostElement;
 
     activity('bootstrap', 'Widget mounted', hostElement);
 
     hydrateRoot(
         mountedHost,
-        <UspWidgetWrapper rawConfig={config} />
+        <WidgetWrapper rawConfig={config} />
     );
 }

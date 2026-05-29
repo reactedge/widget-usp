@@ -1,20 +1,14 @@
 import {createRoot} from "react-dom/client";
-import type {UspWidgetConfig} from "./UspConfig.ts";
+import type {WidgetConfig} from "./Config.ts";
 import React from "react";
 import {activity} from "./activity";
-import {UspWidgetWrapper} from "./UspWidgetWrapper.tsx";
+import {WidgetWrapper} from "./WidgetWrapper.tsx";
 import {getMountedHost} from "./lib/hostReader.ts";
 
-export async function mountWidget(hostElement: HTMLElement, config: UspWidgetConfig) {
+export async function mountWidget(hostElement: HTMLElement, config: WidgetConfig) {
     const mountedHost = getMountedHost(hostElement);
 
     activity('bootstrap', 'Widget mounted', hostElement);
 
-    const element = (
-        <UspWidgetWrapper
-            rawConfig={config}
-        />
-    );
-
-    createRoot(mountedHost).render(element);
+    createRoot(mountedHost).render(<WidgetWrapper rawConfig={config} />);
 }

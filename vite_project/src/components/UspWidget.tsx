@@ -3,12 +3,12 @@ import {useEffect, useRef, useState} from "react";
 import {UspStatic} from "./UspStatic.tsx";
 import {UspSlider} from "./UspSlider.tsx";
 import {Spinner} from "./Spinner.tsx";
-import type {UspWidgetConfig} from "../UspConfig.ts";
+import type {WidgetConfig} from "../Config.ts";
 import {resolveMode} from "../lib/media-queries.ts";
 
 type Props = {
     onStable?: () => void;
-    config: UspWidgetConfig
+    config: WidgetConfig
 };
 
 export const UspWidget = ({ onStable, config }: Props) => {

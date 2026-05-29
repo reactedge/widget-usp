@@ -2,7 +2,7 @@ import {type UspSettings, type UspSlide} from "./components/Types.ts";
 import {activity} from "./activity";
 import {parseConfig} from "./ConfigSchema.ts";
 
-export interface UspWidgetConfig {
+export interface WidgetConfig {
     /**
      * Structured banner payload.
      * Shape is banner-owned and opaque to the platform.
@@ -18,7 +18,7 @@ export const WIDGET_ID = 'usp';
 
 export function readWidgetConfig(
     rawConfig: unknown
-): UspWidgetConfig {
+): WidgetConfig {
     try {
         const contract = parseConfig(rawConfig);
 

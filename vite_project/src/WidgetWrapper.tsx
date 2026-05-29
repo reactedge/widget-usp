@@ -1,14 +1,14 @@
 import React from 'react';
 import {UspWidget} from "./components/UspWidget.tsx";
 import {Spinner} from "./components/Spinner.tsx";
-import {readWidgetConfig, type UspWidgetConfig} from "./UspConfig.ts";
+import {readWidgetConfig, type WidgetConfig} from "./Config.ts";
 
 type Props = {
-    rawConfig: UspWidgetConfig;
+    rawConfig: WidgetConfig;
     onStable?: () => void;
 };
 
-export const UspWidgetWrapper = ({ rawConfig, onStable }: Props) => {
+export const WidgetWrapper = ({ rawConfig, onStable }: Props) => {
     const config = readWidgetConfig(rawConfig);
 
     if (!config) return null;

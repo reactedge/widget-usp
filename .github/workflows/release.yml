@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: reactedge
     env:
-      WIDGET_NAME: usp
+      WIDGET_NAME: __WIDGET_NAME__
 
     steps:
       - name: Checkout
@@ -57,14 +57,14 @@ jobs:
 
           ssh ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }} \
           "mkdir -p $DEST"
-      
+          
           FILE="${{ steps.prepare_artifact.outputs.file }}"
-      
+          
           if [ -z "$FILE" ]; then
             echo "ERROR: file output is empty"
             exit 1
           fi
-      
+          
           rsync -av --chown=www-data:www-data \
             "$FILE" \
             "www/widget-${WIDGET_NAME}.manifest.json" \
