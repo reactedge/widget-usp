@@ -1,14 +1,14 @@
 import {createRoot} from "react-dom/client";
-import type {WidgetConfig} from "./Config.ts";
 import React from "react";
-import {activity} from "./activity";
 import {WidgetWrapper} from "./WidgetWrapper.tsx";
 import {getMountedHost} from "./lib/hostReader.ts";
+import {type RawWidgetConfig} from "./Config.ts";
+import {ActivityContextProvider} from "./activity/Context/ActivityContextProvider.tsx";
 
-export async function mountWidget(hostElement: HTMLElement, config: WidgetConfig) {
+export async function mountWidget(hostElement: HTMLElement, config: RawWidgetConfig) {
     const mountedHost = getMountedHost(hostElement);
 
-    activity('bootstrap', 'Widget mounted', hostElement);
-
-    createRoot(mountedHost).render(<WidgetWrapper rawConfig={config} />);
+    createRoot(mountedHost).render(<ActivityContextProvider hostElement={hostElement}>
+        <WidgetWrapper rawConfig={config} />
+    </ActivityContextProvider>);
 }

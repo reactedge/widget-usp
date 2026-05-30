@@ -1,10 +1,10 @@
 import { isActivityEnabled } from './activity.guard';
-import {WIDGET_ID} from "../Config.ts";
 
 type Level = 'info' | 'warn' | 'error';
 
 export interface ActivityPayload {
     widget: string;
+    instance: string;
     phase: string;
     message: string;
     level: Level;
@@ -12,40 +12,77 @@ export interface ActivityPayload {
     ts: number;
 }
 
-export function activity(
-    phase: string,
-    message: string,
-    data?: unknown,
-    level: Level = 'info'
-) {
-    const payload = {
-        widget: `${WIDGET_ID}`,
-        phase,
-        message,
-        level,
-        data,
-        ts: Date.now(),
-    };
+export interface Activity {
+    log(
+        phase: string,
+        message: string,
+        data?: unknown,
+        level?: Level
+    ): void;
+}
 
-    if (isActivityEnabled()) {
-        const prefix = `[${WIDGET_ID}] ${phase}`;
+export class WidgetActivity
+    implements Activity {
 
-        if (level === 'error') {
-            console.error(prefix, payload);
-        } else if (level === 'warn') {
-            console.warn(prefix, payload);
-        } else {
-            console.log(prefix, payload);
+    private readonly widget: string;
+    private readonly instance?: string;
+
+    constructor(
+        widget: string,
+        instance?: string
+    ) {
+        this.widget = widget;
+        this.instance = instance;
+    }
+
+    public log(
+        phase: string,
+        message: string,
+        data?: unknown,
+        level: Level = 'info'
+    ): void {
+
+        const payload: ActivityPayload = {
+            widget: this.widget,
+            instance: this.instance ?? this.widget,
+            phase,
+            message,
+            level,
+            data,
+            ts: Date.now(),
+        };
+
+        if (isActivityEnabled()) {
+            const prefix =
+                `[${this.widget}] ${phase}`;
+
+            if (level === 'error') {
+                console.error(prefix, payload);
+            } else if (level === 'warn') {
+                console.warn(prefix, payload);
+            } else {
+                console.log(prefix, payload);
+            }
+
+            this.dispatchActivityEvent(payload);
         }
     }
 
-    dispatchActivityEvent(payload);
-}
+    private dispatchActivityEvent(
+        payload: ActivityPayload
+    ): void {
 
-function dispatchActivityEvent(payload: ActivityPayload) {
-    window.dispatchEvent(
-        new CustomEvent('reactedge:activity', {
-            detail: payload,
-        })
-    );
+        if (typeof window === 'undefined') {
+            return;
+        }
+
+        window.dispatchEvent(
+            new CustomEvent(
+                'reactedge:activity',
+                {
+                    detail: payload,
+                }
+            )
+        );
+    }
 }

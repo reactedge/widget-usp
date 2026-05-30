@@ -1,15 +1,17 @@
 import React from 'react';
 import {UspWidget} from "./components/UspWidget.tsx";
 import {Spinner} from "./components/Spinner.tsx";
-import {readWidgetConfig, type WidgetConfig} from "./Config.ts";
+import {type RawWidgetConfig, readWidgetConfig} from "./Config.ts";
+import {useActivityContext} from "./activity/Context/useActivityContext.ts";
 
 type Props = {
-    rawConfig: WidgetConfig;
+    rawConfig: RawWidgetConfig;
     onStable?: () => void;
 };
 
 export const WidgetWrapper = ({ rawConfig, onStable }: Props) => {
-    const config = readWidgetConfig(rawConfig);
+    const activity = useActivityContext()
+    const config = readWidgetConfig(rawConfig, activity);
 
     if (!config) return null;
 

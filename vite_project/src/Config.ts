@@ -1,6 +1,6 @@
 import {type UspSettings, type UspSlide} from "./components/Types.ts";
-import {activity} from "./activity";
 import {parseConfig} from "./ConfigSchema.ts";
+import type {WidgetActivity} from "./activity";
 
 export interface WidgetConfig {
     /**
@@ -14,15 +14,24 @@ export interface WidgetConfig {
     readonly settings: UspSettings;
 }
 
+export interface RawWidgetConfig {
+    readonly data: {
+        slides: UspSlide[]
+    }
+
+    readonly settings: UspSettings;
+}
+
 export const WIDGET_ID = 'usp';
 
 export function readWidgetConfig(
-    rawConfig: unknown
+    rawConfig: unknown,
+    activity?: WidgetActivity
 ): WidgetConfig {
     try {
         const contract = parseConfig(rawConfig);
 
-        activity(
+        activity?.log(
             'bootstrap',
             'Config resolved',
             contract
@@ -31,7 +40,7 @@ export function readWidgetConfig(
         return Object.freeze(contract);
 
     } catch (e) {
-        activity(
+        activity?.log(
             'bootstrap',
             'Invalid widget contract',
             e instanceof Error? e.message: e,

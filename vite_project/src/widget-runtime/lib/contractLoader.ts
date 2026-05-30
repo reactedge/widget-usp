@@ -1,5 +1,3 @@
-import {activity} from "../../activity";
-
 export interface WidgetRegistryEntry {
     src?: string;
     integrity?: string;
@@ -12,7 +10,6 @@ export async function loadContractByName(name: string, registry: WidgetRegistry)
     const entry = registry[name];
 
     if (!entry?.cdn) {
-        activity('bootstrap', 'Config error', entry);
         throw new Error(`No contract for ${name}`);
     }
 
