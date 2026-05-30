@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: reactedge
     env:
-      WIDGET_NAME: __WIDGET_NAME__
+      WIDGET_NAME: usp
 
     steps:
       - name: Checkout
