@@ -13,12 +13,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout ReactEdge platform (pinned)
+      - name: Checkout ReactEdge shared resources
         uses: actions/checkout@v4
         with:
           repository: reactedge/platform
           ref: 104e1e2a99d9751583d8ce86ad8a1b10f6b48fa4
           path: platform
+          sparse-checkout: |
+            packages/widget-build/shared-resources
           persist-credentials: false
 
       - name: Checkout widget USP
