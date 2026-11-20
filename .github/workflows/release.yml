@@ -42,7 +42,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: platform/widgets/usp
-        run: npm
+        run: npm ci
 
       - name: Expose widget dependencies to shared build tooling
         shell: bash
