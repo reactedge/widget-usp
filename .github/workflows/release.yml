@@ -40,9 +40,11 @@ jobs:
           cache: npm
           cache-dependency-path: platform/widgets/usp/package-lock.json
 
-      - name: Install dependencies
-        working-directory: platform/widgets/usp
-        run: npm ci
+      - name: Install USP dependencies
+        shell: bash
+        run: |
+          cd platform/widgets/usp
+          npm ci --prefix "$PWD"
 
       - name: Build with existing Vite manifest plugin
         working-directory: platform/widgets/usp
