@@ -1,16 +1,15 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Locator } from '@playwright/test';
 
 test.describe('USP Widget', () => {
-    let usp;
+    let usp: Locator;
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('/');
-        //await page.goto('/fixtures/usp.html');
+        await page.goto('/?reactedge_debug=eager');
         usp = page.locator('usp-widget');
         await expect(usp).toBeVisible();
     });
 
-    test('USP widget finds its slides', async ({ page }) => {
+    test('USP widget finds its slides', async () => {
         const slides = usp.locator('[data-usp-slide]');
 
         await expect(slides).toHaveCount(3);
@@ -21,7 +20,7 @@ test.describe('USP Widget', () => {
 
         test.use({ viewport: { width: 375, height: 667 } });
 
-        test('USP next button activates the next slide on mobile', async ({page}) => {
+        test('USP next button activates the next slide on mobile', async () => {
             // Initial active slide
             const activeBefore = usp.locator('[data-usp-active="true"]');
             await expect(activeBefore).toHaveCount(1);
@@ -44,7 +43,7 @@ test.describe('USP Widget', () => {
         });
 
 
-        test('USP previous button activates the previous slide on mobile', async ({page}) => {
+        test('USP previous button activates the previous slide on mobile', async () => {
             const nextButton = usp.locator('[data-usp-next]');
             const prevButton = usp.locator('[data-usp-prev]');
 
@@ -133,7 +132,7 @@ test.describe('USP Widget', () => {
         });
 
 
-        test('USP desktop mode ignores next and prev', async ({page}) => {
+        test('USP desktop mode ignores next and prev', async () => {
             const slides = usp.locator('[data-usp-slide]');
             await expect(slides).toHaveCount(3);
 

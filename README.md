@@ -1,152 +1,122 @@
-# ReactEdge – USP Widget
+# ReactEdge – Product Gallery Widget
 
-A small, embeddable **USP (Unique Selling Points) widget** designed to be safely integrated into existing websites without owning the page or application lifecycle.
+An embeddable **Product Gallery widget** designed to integrate safely into existing websites without owning the page or application lifecycle.
 
-This widget is part of the **ReactEdge** initiative: a collection of frontend widgets built with a strong emphasis on isolation, reversibility, and clarity.
+This repository is part of the **ReactEdge** series — a collection of frontend widgets built around a consistent embedding contract, strict isolation discipline, and predictable behaviour.
 
----
+The widget is independently built and deployable product gallery that can replace the
+native product-media presentation on a Magento / Mage-OS product detail page.
 
-## What this is
-
-- A lightweight frontend widget for displaying USPs
-- Designed to be embedded into existing platforms (e.g. legacy CMS, e-commerce sites)
-- Isolated by default (no global CSS or JS leakage)
-- Easy to install **and easy to remove**
-- Actively used and evolving
+Product Gallery is the reference ReactEdge widget: it demonstrates how a
+meaningful storefront capability can have its own frontend implementation,
+tests and deployment lifecycle while remaining integrated with the host
+commerce application.
 
 ---
 
-## What this is NOT
+## Capabilities
 
-- ❌ A framework
-- ❌ A full design system
-- ❌ A conversion or growth “hack”
-- ❌ A replacement for CMS or backend logic
-- ❌ Opinionated about content or marketing strategy
+- Standard gallery with main image and thumbnails
+- Tiled product-image layout
+- Fullscreen/zoom navigation
+- Magento product imagery through GraphQL
+- Configurable-product image selection
+- Server-side rendering
+- Client-side hydration
+- External product-selection signals
+- Independent build and deployment
+- Magento configuration-controlled enable/disable
 
-This widget focuses on **delivery and safety**, not business promises.
+Gallery mode is configured through the widget contract. It is not switched
+by the shopper at runtime.
 
----
+## Magento integration
 
-## Design principles
+When Product Gallery is disabled, the native Magento/Hyvä product gallery
+remains in place.
 
-- **Isolation first** – the widget does not assume ownership of the page or application
-- **Reversible by design** – removal should leave no trace on the host system
-- **Non-hostile to the host** – designed to coexist with existing themes and layouts rather than override them
-- **Minimal surface area** – only what is required to do the job
-- **Testable in isolation** – behaviour can be verified without the host platform
-- **Deferred by default** – does not require early page execution to function
-- **Layered structure** – organised to encourage consistency across ReactEdge widgets without enforcing a framework
-- **Boring on purpose** – clarity over cleverness
-- **Observable by the host** – key lifecycle and interaction events are emitted to allow integration with analytics or monitoring tools without coupling to a specific provider
+When Product Gallery is enabled, the supplied WidgetBridge integration
+replaces the native product-media capability with ReactEdge Product Gallery.
 
----
+This does not require changes to Magento core, database schema, or the
+host theme template.
 
-## 🎨 Styling Tokens
+Product data is retrieved through the configured Magento GraphQL integration.
+The host storefront can propagate configurable-product selections to the
+widget through ReactEdgeSignals.
 
-The USP widget exposes the following optional CSS variables
-for host-level customization.
-If not defined, defaults are applied.
+Example:
 
-### Available Tokens
+    ReactEdgeSignals.emit({
+        type: "product_attribute_changed",
+        code: "color",
+        value: "57"
+    });
 
---re-usp-bg  
---re-usp-text-color  
---re-usp-height  
---re-usp-gap  
---re-usp-padding  
---re-usp-radius  
---re-usp-transition  
---re-usp-arrow-color  
---re-usp-arrow-bg  
---re-usp-arrow-size
+The gallery responds to the selection and incorporates the corresponding
+product imagery.
 
-### Example
+## Rendering modes
 
-```css
-.reactedge-usp {
-  --re-usp-bg: #003652;
-  --re-usp-text-color: #F6F2DF;
-  --re-usp-gap: 2rem;
-}
-```
+### Gallery
 
-## Project structure (high level)
+Displays a primary image with thumbnail navigation.
 
-This repository contains the widget itself, along with supporting tooling used for development, testing, and community maintenance.
+### Tile
 
-- `vite_project/`  
-  Source code for the USP widget and its build configuration.
+Displays product imagery as a configurable tiled grid. Selecting an image
+opens the zoom view with previous/next navigation.
 
-- `tests/`  
-  End-to-end tests (Playwright) used to validate widget behaviour in a real browser environment.
+For products containing only one image, the image is rendered directly
+rather than presenting unnecessary gallery controls.
 
-- `docker/` and `docker-compose.yml`  
-  Optional local development tooling. These are provided for convenience and are not required to use the widget.
+## Local Development
 
-- `.github/`  
-  GitHub metadata (issue templates, CI workflows, etc.) to support collaboration and maintainability.
-
-- `www/`  
-  Generated build output. This folder is intentionally not committed to the repository.
-
-## Installation (high level)
-
-The widget is delivered as a standalone JavaScript file and exposed via a custom element.
-
-Typical usage looks like:
-
-```html
-<script src="path-to-widget.js"></script>
-
-<reactedge-usp-widget></reactedge-usp-widget>
-```
-
-## Local development
-
-This project uses Node.js and npm.
-
-From the repository root:
+For all the commands below, we assume we are in the widget folder
 
 ```bash
-npm install
+cd widgets/productgallery
 ```
 
-To run the widget locally:
+Install dependencies:
 
 ```bash
-cd vite_project
-npm install
+npm ci
+```
+
+Run locally:
+
+```bash
 npm run dev
 ```
 
 To run the widget in SSR mode:
 
 ```bash
-cd widget-usp
-npm install
-NODE_TLS_REJECT_UNAUTHORIZED=0 npx tsx scripts/render-page.ts ../widgets-cdn/www/usp/contracts/usp-demo1.json
+NODE_TLS_REJECT_UNAUTHORIZED=0 npx tsx  \
+   --tsconfig widgets/productgallery/tsconfig.app.json  \
+   packages/widget-build/ssr-generation/render-page.ts \
+   productgallery  \
+   widgets/productgallery/public/default.json
 ```
 
 To run the test suite:
+Run tests:
+
 ```bash
-npx playwright test --config=tests/playwright.dev.config.ts
+npx playwright test   --config=../../tests/playwright.dev.config.ts   tests/productgallery.spec.ts
 ```
 
-## Deploying the widget
+---
 
-ReactEdge widgets are deployed as **static JavaScript artefacts**.
-They do not require a server-side runtime once built.
-
-### Build the artefact
-
-From the `vite_project` directory:
+## Building for Production
 
 ```bash
 npm run build
 ```
 
-This produces a versioned JavaScript file in the www/ directory
-(e.g. widget-usp@x.y.z.iife.js).
+This produces a versioned JavaScript artefact in the `workspace/source/` directory:
+The widget runs as a static asset and does not require a backend runtime once built.
 
-The www/ Generated build output produced by the build process. This folder is intentionally not committed to the repository.
+---
+
