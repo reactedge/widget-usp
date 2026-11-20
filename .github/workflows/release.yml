@@ -25,7 +25,7 @@ jobs:
           cd platform
           git sparse-checkout init --cone
           git sparse-checkout set packages/widget-build/shared-resources
-          git checkout --detach f22ebd5f60be21b52c7906b73e5714396f06eb85
+          git checkout --detach 43f203800bb5f8267ab2a671d7732608bd15ff06
 
       - name: Isolate widget from platform npm workspace
         shell: bash
