@@ -1,0 +1,87 @@
+name: Build USP release artifacts
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ReactEdge platform (pinned)
+        uses: actions/checkout@v4
+        with:
+          repository: reactedge/platform
+          ref: 104e1e2a99d9751583d8ce86ad8a1b10f6b48fa4
+          path: platform
+          persist-credentials: false
+
+      - name: Checkout widget USP
+        uses: actions/checkout@v4
+        with:
+          path: platform/widgets/usp
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: platform/widgets/usp/package-lock.json
+
+      - name: Install dependencies
+        working-directory: platform/widgets/usp
+        run: npm ci
+
+      - name: Build with existing Vite manifest plugin
+        working-directory: platform/widgets/usp
+        run: |
+          mkdir -p ../../workspace/release/source/usp
+          npm run build
+
+      - name: Verify emitted manifest and bundle
+        working-directory: platform/widgets/usp
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync, existsSync } from 'node:fs';
+          import { createHash } from 'node:crypto';
+          import { resolve, dirname } from 'node:path';
+
+          const dir = resolve('../../workspace/release/source/usp');
+          const manifest = JSON.parse(readFileSync(resolve(dir, 'widget-usp.manifest.json'), 'utf8'));
+          if (manifest.widget !== 'usp') throw new Error('Unexpected widget');
+          const file = resolve(dir, manifest.filename);
+          if (dirname(file) !== dir || !existsSync(file)) throw new Error('Missing or unsafe bundle filename');
+          const digest = createHash('sha256').update(readFileSync(file)).digest('base64url');
+          if (digest !== manifest.hash) throw new Error('Manifest hash does not match emitted bundle');
+          if (manifest.cssFilename && !existsSync(resolve(dir, manifest.cssFilename))) {
+            throw new Error('Manifest CSS file is missing');
+          }
+          console.log('Verified emitted bundle SHA-256 against manifest:', manifest.filename);
+          NODE
+
+      - name: Upload downloadable build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: widget-usp-${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
+          path: platform/workspace/release/source/usp/
+          if-no-files-found: error
+
+      - name: Publish immutable tag release assets
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh release create "${GITHUB_REF_NAME}" platform/workspace/release/source/usp/* \
+            --title "USP ${GITHUB_REF_NAME}" \
+            --generate-notes \
+            --verify-tag
