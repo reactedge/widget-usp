@@ -14,14 +14,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ReactEdge shared resources
-        uses: actions/checkout@v4
-        with:
-          repository: reactedge/platform
-          ref: 104e1e2a99d9751583d8ce86ad8a1b10f6b48fa4
-          path: platform
-          sparse-checkout: |
-            packages/widget-build/shared-resources
-          persist-credentials: false
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone \
+            --filter=blob:none \
+            --no-checkout \
+            https://github.com/reactedge/platform.git \
+            platform
+          cd platform
+          git sparse-checkout init --cone
+          git sparse-checkout set packages/widget-build/shared-resources
+          git checkout --detach 104e1e2a99d9751583d8ce86ad8a1b10f6b48fa4
 
       - name: Checkout widget USP
         uses: actions/checkout@v4
