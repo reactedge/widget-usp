@@ -27,6 +27,12 @@ jobs:
           git sparse-checkout set packages/widget-build/shared-resources
           git checkout --detach 104e1e2a99d9751583d8ce86ad8a1b10f6b48fa4
 
+      - name: Isolate widget from platform npm workspace
+        shell: bash
+        run: |
+          rm -f platform/package.json
+          rm -f platform/package-lock.json
+
       - name: Checkout widget USP
         uses: actions/checkout@v4
         with:
