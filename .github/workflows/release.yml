@@ -1,4 +1,4 @@
-name: Build USP release artifacts
+name: Build release artifacts
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
           cd platform
           git sparse-checkout init --cone
           git sparse-checkout set packages/widget-build/shared-resources
-          git checkout --detach 43f203800bb5f8267ab2a671d7732608bd15ff06
+          git checkout --detach 'widget-build@1.0.0'
 
       - name: Isolate widget from platform npm workspace
         shell: bash
@@ -33,7 +33,7 @@ jobs:
           rm -f platform/package.json
           rm -f platform/package-lock.json
 
-      - name: Checkout widget USP
+      - name: Checkout widget
         uses: actions/checkout@v4
         with:
           path: platform/widgets/usp
